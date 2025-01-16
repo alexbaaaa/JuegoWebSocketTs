@@ -1,5 +1,6 @@
 import { Player } from "../player/entities/Player";
 import { Room } from "./entities/Room";
+import { v4 as uuidv4 } from '../../node_modules/uuid';
 
 export class RoomService {
     private rooms: Room[];
@@ -19,9 +20,8 @@ export class RoomService {
     public addPlayer(player: Player) {
         const room = this.rooms.find((item) => item.occupied == false);
         if (room == undefined) {
-            const genRanHex = (size: Number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
             const currentRoom: Room = {
-                name: "room" + genRanHex(128),
+                name: "room" + uuidv4(),
                 players: [player],
                 occupied: false
             }

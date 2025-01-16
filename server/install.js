@@ -18,7 +18,8 @@ const packageJson = `{
     "dotenv": "^16.0.3",
     "cors": "^2.8.5",
     "socket.io": "^4.8.1",
-    "mongoose": "^8.9.3"
+    "mongoose": "^8.9.3",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "typescript": "^5.2.2",
