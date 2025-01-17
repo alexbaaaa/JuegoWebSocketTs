@@ -35,14 +35,21 @@ export class ServerService {
 
         this.io.on('connection', (socket) => {
             socket.emit("connectionStatus", { status: true });
+            console.log('Un cliente se ha conectado:', socket.id);
             GameService.getInstance().addPlayer(GameService.getInstance().buildPlayer(socket));
-            
+            // intento de implementacion del reductor
+            socket.on('mensaje', (data) => {
+                this.reductor();
+            })
             socket.on('disconnect', () => {
                 console.log('Un cliente se ha desconectado:', socket.id);
             });
         });
     }
 
+    private reductor() {
+        
+    }
     public addPlayerToRoom(player : Socket, room: String) {
         player.join(room.toString());
     }
