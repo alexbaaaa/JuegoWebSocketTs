@@ -21,7 +21,7 @@ export class RoomService {
         const room = this.rooms.find((item) => item.occupied == false);
         if (room == undefined) {
             const currentRoom: Room = {
-                name: "room" + uuidv4(),
+                name: "room" + uuidv4(), 
                 players: [player],
                 occupied: false
             }
