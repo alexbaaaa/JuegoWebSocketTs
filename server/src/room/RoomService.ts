@@ -1,6 +1,6 @@
 import { Player } from "../player/entities/Player";
-import { Room } from "./entities/Room";
-import { v4 as uuidv4 } from '../../node_modules/uuid';
+import { ServerService } from "../server/ServerService";
+import { Room, RoomConfig } from "./entities/Room";
 
 export class RoomService {
     private rooms: Room[];
@@ -17,20 +17,27 @@ export class RoomService {
         return this.instance;
     }
 
-    public addPlayer(player: Player) {
+    private getRoom() : Room {
         const room = this.rooms.find((item) => item.occupied == false);
         if (room == undefined) {
+            const genRanHex = (size: Number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
             const currentRoom: Room = {
-                name: "room" + uuidv4(), 
-                players: [player],
-                occupied: false
+                name: "room" + genRanHex(128),
+                players: [],
+                occupied: false,
+                game: null
             }
             this.rooms.push(currentRoom);
-            player.id.join(currentRoom.name as string);
-        } else {
-            room.players.push(player);
-            if (room.players.length == 4) room.occupied = true;
-            player.id.join(room.name as string);
+            return currentRoom;
         }
+        return room;
+    }
+
+    public addPlayer(player: Player) : Room {
+        const room : Room = this.getRoom();
+        room.players.push(player);
+        ServerService.getInstance().addPlayerToRoom(player.id,room.name);
+        if (room.players.length == RoomConfig.maxRoomPlayers) room.occupied = true;
+        return room;  
     }
 }

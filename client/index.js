@@ -5,4 +5,4 @@ socket.on("connect", (data) => {
     socket.on("respuesta", (dato) => {
         console.log(dato);
     });
-});
+}); 
